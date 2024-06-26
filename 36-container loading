@@ -1,0 +1,42 @@
+#include <stdio.h>
+#define MAX_CONTAINERS 100
+#define MAX_ITEMS 100
+typedef struct {
+    int id;
+    int size;
+} Item;
+typedef struct {
+    int id;
+    int capacity;
+    int current_size;
+} Container;
+void firstFit(Item items[], int numItems, Container containers[], int numContainers) {
+    int i, j;
+    for (i = 0; i < numItems; i++) {
+        for (j = 0; j < numContainers; j++) {
+            if (containers[j].current_size + items[i].size <= containers[j].capacity) {
+                containers[j].current_size += items[i].size;
+                printf("Item %d fits in Container %d\n", items[i].id, containers[j].id);
+                break;
+            }
+        }
+        if (j == numContainers) {
+            printf("Item %d cannot be packed.\n", items[i].id);
+        }
+    }
+}
+int main() {
+    Item items[MAX_ITEMS] = {
+        {1, 10},
+        {2, 5},
+        {3, 7},
+    };
+    Container containers[MAX_CONTAINERS] = {
+        {1, 20, 0},
+        {2, 15, 0},
+    };
+    int numItems = 3;
+    int numContainers = 2;
+    firstFit(items, numItems, containers, numContainers);
+    return 0;
+}
